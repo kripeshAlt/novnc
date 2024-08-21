@@ -1,0 +1,14 @@
+{
+  "name": "puppeteer-example",
+  "version": "1.0.0",
+  "description": "A simple Puppeteer example",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "puppeteer": "^20.0.0"  // Replace with the latest version if needed
+  },
+  "author": "",
+  "license": "ISC"
+}

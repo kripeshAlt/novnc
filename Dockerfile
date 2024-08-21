@@ -1,20 +1,30 @@
-# Use a base image with Node.js and Chromium
+# Use an official Node.js base image
 FROM zenika/alpine-chrome:with-node
 
 # Set up working directory
 WORKDIR /app
 
-# Copy package.json and package-lock.json (or yarn.lock)
-COPY package.json package-lock.json* ./
+# Install necessary packages
+RUN apk add --no-cache \
+    ttf-freefont \
+    harfbuzz \
+    nss \
+    libx11 \
+    libxcomposite \
+    libxcursor \
+    libxdamage \
+    libxrandr \
+    libxss \
+    libxtst \
+    alsa-lib \
+    gdk-pixbuf \
+    gtk+3.0 \
+    mesa-gl \
+    opengl \
+    ca-certificates
 
-# Install dependencies
-RUN npm install
-
-# Copy the rest of the application code
-COPY . .
-
-# Expose port if needed (default for Puppeteer is not required but included for completeness)
+# Expose the port for remote debugging
 EXPOSE 9222
 
-# Run the application
-CMD ["node", "index.js"]
+# Command to run Chromium
+CMD ["chromium-browser", "--headless", "--no-sandbox", "--remote-debugging-port=9222"]

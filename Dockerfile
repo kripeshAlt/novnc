@@ -1,4 +1,4 @@
-FROM kripeshAlt/ubuntu-novnc-20.04
+FROM kripeshalt/ubuntu-novnc-20.04
 
 EXPOSE 80
 

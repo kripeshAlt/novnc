@@ -1,37 +1,11 @@
-# Use an official Ubuntu as a parent image
-FROM ubuntu:20.04
+# Use a base image with Node.js and Ubuntu
+FROM codercom/code-server:4.10.1
 
-# Set environment variables to non-interactive to avoid prompts during install
-ENV DEBIAN_FRONTEND=noninteractive
-ENV RESOLUTION=1920x1080
-ENV USER=root
+# Set environment variables
+ENV PORT=8080
 
-# Install necessary packages
-RUN apt-get update && apt-get install -y \
-    xrdp \
-    xfce4 \
-    xfce4-goodies \
-    novnc \
-    websockify \
-    supervisor \
-    curl \
-    && apt-get clean
+# Expose port 8080 for the web editor
+EXPOSE 8080
 
-# Setup xrdp
-RUN adduser xrdp ssl-cert
-RUN echo "xfce4-session" >~/.xsession
-
-# Install noVNC
-RUN mkdir -p /usr/share/novnc
-RUN curl -L https://github.com/novnc/noVNC/archive/refs/heads/master.zip -o noVNC.zip && \
-    unzip noVNC.zip -d /usr/share/novnc && \
-    rm noVNC.zip
-
-# Copy configuration files
-COPY supervisord.conf /etc/supervisor/supervisord.conf
-
-# Expose ports for RDP and noVNC
-EXPOSE 3389 80
-
-# Start the supervisor service
-CMD ["supervisord", "-c", "/etc/supervisor/supervisord.conf"]
+# Start CodeServer without authentication
+CMD ["code-server", "--bind-addr", "0.0.0.0:8080", "--auth", "none"]

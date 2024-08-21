@@ -3,6 +3,8 @@ FROM ubuntu:20.04
 
 # Set environment variables to non-interactive to avoid prompts during install
 ENV DEBIAN_FRONTEND=noninteractive
+ENV RESOLUTION=1920x1080
+ENV USER=root
 
 # Install necessary packages
 RUN apt-get update && apt-get install -y \
